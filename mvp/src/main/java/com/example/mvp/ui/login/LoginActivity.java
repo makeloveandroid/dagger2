@@ -1,34 +1,29 @@
-package com.example.myrxjava.ui.login;
+package com.example.mvp.ui.login;
 
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.myrxjava.R;
-import com.example.myrxjava.app.App;
-import com.example.myrxjava.base.BaseActivity;
+import com.example.mvp.R;
+import com.example.mvp.app.App;
+import com.example.mvp.base.BaseMvpActivity;
+import com.example.mvp.base.BaseMvpPresenter;
+import com.example.mvp.contract.LoginContract;
+import com.example.mvp.entity.UserInfo;
+import com.example.mvp.util.ToastUtil;
 
-
-import com.example.myrxjava.constract.LoginContract;
-import com.example.myrxjava.entity.UserInfo;
-import com.example.myrxjava.inject.component.DaggerLoginActivityComponent;
-
-import javax.inject.Inject;
-
-public class LoginActivity extends BaseActivity implements LoginContract.LoginMvpView{
-    @Inject
-    public LoginPresenter loginPresenter;
-    @Inject
-    public Toast toast;
+public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements LoginContract.LoginView{
 
     private EditText etPass;
     private EditText etUser;
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_login;
     }
 
     @Override
@@ -39,8 +34,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginMv
 
     @Override
     protected void initData() {
-        DaggerLoginActivityComponent.builder().appComponent(App.appComponent).build().inject(this);
-        loginPresenter.setMvpView(this);
+
     }
 
 
@@ -53,7 +47,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginMv
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginPresenter.login();
+                presenter.login();
             }
         });
     }
@@ -66,16 +60,14 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginMv
 
     @Override
     public void showErrorMsg(String msg) {
-        Log.d("wyz", "数据错误`消息：" + msg+" "+toast);
-        toast.setText(msg);
-        toast.show();
+        Log.d("wyz", "数据错误`消息：" + msg+" ");
+        ToastUtil.showToast(msg);
     }
 
     @Override
     public void showToastMsg(String msg) {
-        Log.d("wyz", "数据消息：" + msg+" "+toast);
-        toast.setText(msg);
-        toast.show();
+        Log.d("wyz", "数据消息：" + msg+" ");
+        ToastUtil.showToast(msg);
     }
 
     @Override
@@ -83,11 +75,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginMv
         progressDialog.hide();
     }
 
-    @Override
-    public void loginSuccess(UserInfo userInfo) {
-        toast.setText("UserInfo：" +userInfo);
-        toast.show();
-    }
+
 
     @Override
     public String getUser() {
@@ -97,5 +85,15 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginMv
     @Override
     public String getPass() {
         return etPass.getText().toString();
+    }
+
+    @Override
+    public void loginSucccess(UserInfo userInfo) {
+        ToastUtil.showToast("UserInfo：" +userInfo);
+    }
+
+    @Override
+    public void loginError(String msg) {
+
     }
 }
