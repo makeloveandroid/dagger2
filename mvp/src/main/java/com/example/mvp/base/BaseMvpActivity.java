@@ -34,4 +34,10 @@ public abstract class BaseMvpActivity<P extends BaseMvpPresenter> extends AppCom
     protected abstract void initData();
 
     protected abstract void findView();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.unSubscription();//在activity销毁的时候,取消当前Activity的所有订阅
+    }
 }

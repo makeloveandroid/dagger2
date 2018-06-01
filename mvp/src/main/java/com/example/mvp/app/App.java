@@ -2,6 +2,7 @@ package com.example.mvp.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.View;
 
 
 /**

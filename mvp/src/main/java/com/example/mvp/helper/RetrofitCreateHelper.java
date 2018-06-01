@@ -19,7 +19,7 @@ import okhttp3.Response;
 import okhttp3.internal.cache.CacheInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -88,7 +88,7 @@ public class RetrofitCreateHelper {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(getHttpClient(getIntercepter(),getCache(App.getAppContext())))//这里我感受到了Dagger2的好处了
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

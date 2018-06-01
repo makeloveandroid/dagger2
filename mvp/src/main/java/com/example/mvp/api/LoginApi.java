@@ -5,10 +5,10 @@ import com.example.mvp.entity.UserInfo;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import rx.Observable;
 
 /**
  * Created by wenyingzhi on 2018/4/23.
